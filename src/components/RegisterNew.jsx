@@ -1,4 +1,4 @@
-import './RegisTerNew.css'
+import '../styles/RegisterNew.css'
 
 function RegisterNew() {
   return (
