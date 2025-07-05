@@ -1,8 +1,9 @@
 import '../styles/RegisterNew.css'
+import Layout from './Layout';
 
 function RegisterNew() {
   return (
-    <>
+    <Layout>
       <div className="register-cont">
         <div className="register-card">
           <h2>Registro de Usuario</h2>
@@ -30,7 +31,7 @@ function RegisterNew() {
           </form>
         </div>
       </div>
-    </>
+    </Layout>
   );
 }
 

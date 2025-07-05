@@ -1,8 +1,8 @@
 import { createRoot } from 'react-dom/client'
-import RegisterNew from './components/RegisterNew.jsx'
+import { Router } from './router/Router.jsx'
 
 createRoot(document.getElementById('root')).render(
     <>
-      <RegisterNew/>
+      <Router/>
     </>
 )
