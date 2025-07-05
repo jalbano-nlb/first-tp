@@ -38,7 +38,7 @@
   margin: 0.5rem 0;
 }
 
-.main-product button {
+.main-product a {
   margin-top: auto;
   padding: 0.5rem 1rem;
   background-color: #2980b9;
@@ -47,9 +47,10 @@
   border-radius: .375rem;
   cursor: pointer;
   transition: background-color 0.3s ease;
+  text-decoration: none;
 }
 
-.main-product button:hover {
+.main-product a:hover {
   background-color: #1f6391;
 }
 

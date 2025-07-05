@@ -35,7 +35,7 @@ const Main = () => {
             <img src={product.image} alt={`Imagen del producto ${product.title}`} />
             <h2>{product.title}</h2>
             <p>${product.price}</p>
-            <Link to={`/productDetail/${product.id}`}>Comprar</Link>
+            <Link className="btn-nlb" to={`/productDetail/${product.id}`}>Comprar</Link>
             
           </div>
         ))}
