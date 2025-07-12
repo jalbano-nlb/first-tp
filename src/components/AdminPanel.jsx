@@ -12,7 +12,7 @@ const AdminPanel = () => {
 
     const navigate = useNavigate();
     const handleBack = () => navigate("/");
-    
+
     const [name, setName] = useState("");
     const [price, setPrice] = useState(0);
     const [desc, setDesc] = useState("");
@@ -24,9 +24,10 @@ const AdminPanel = () => {
     const createProduct  = async (prodData) => {
         const createdAt = Date.now ()
         const updatedAt = Date.now ()
+        const deletedAt = null;
         const productosRef = collection(db, "productos")
         try{
-            const productRef = await addDoc(productosRef, {createdAt, updatedAt, ...prodData})
+            const productRef = await addDoc(productosRef, {createdAt, updatedAt, deletedAt, ...prodData})
             cleanForm();
             return productRef
         } catch(err){

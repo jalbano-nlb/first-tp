@@ -16,7 +16,7 @@ const Main = () => {
       const productList = prodSnapshot.docs.map((doc) => ({
         id: doc.id,
         ...doc.data(),
-      }));
+      })).filter((prod) => prod.deletedAt === null);
 
       setProducts(productList);
 

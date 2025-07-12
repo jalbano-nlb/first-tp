@@ -1,7 +1,7 @@
 import { useParams, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { db } from "../config/firebase";
-import { doc, getDoc, updateDoc, deleteDoc } from "firebase/firestore";
+import { doc, getDoc, updateDoc } from "firebase/firestore";
 import "../styles/AdminPanel.css" //Utilizo el mismo que el de alta, son casi iguales. Agregué solamente estilos al boton editar
 
 
@@ -57,7 +57,9 @@ const EditProduct = () => {
 
         try {
         const productRef = doc(db, "productos", prodId);
-        await deleteDoc(productRef);
+        await updateDoc(productRef, {
+            deletedAt: Date.now()
+        });
         navigate("/");
         } catch (err) {
         console.log("Error al eliminar producto: ", err);
