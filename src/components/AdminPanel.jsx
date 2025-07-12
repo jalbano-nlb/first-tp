@@ -4,11 +4,14 @@ import { useState } from "react";
 import { addDoc, collection } from "firebase/firestore";
 import { db } from "../config/firebase"
 import * as DEF_IMG from "../assets/defaultImage"
+import { useNavigate } from "react-router-dom";
 
 
 
 const AdminPanel = () => {
 
+    const navigate = useNavigate();
+    const handleBack = () => navigate("/");
     const [name, setName] = useState("");
     const [price, setPrice] = useState(0);
     const [desc, setDesc] = useState("");
@@ -92,6 +95,7 @@ const AdminPanel = () => {
 
     return (
         <Layout>
+            <button className="back-btn" onClick={handleBack}>⬅ Volver</button>
             <div className="create-product-cont">
                 <div className="create-product-card">
                     <h2>Alta de Producto</h2>
