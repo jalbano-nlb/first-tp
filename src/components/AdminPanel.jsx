@@ -12,6 +12,7 @@ const AdminPanel = () => {
 
     const navigate = useNavigate();
     const handleBack = () => navigate("/");
+    
     const [name, setName] = useState("");
     const [price, setPrice] = useState(0);
     const [desc, setDesc] = useState("");
