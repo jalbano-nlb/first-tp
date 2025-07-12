@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import "../styles/Main.css";
 import { Link } from "react-router-dom";
 import { db } from "../config/firebase"
-import { collection, getDocs, doc, addDoc } from "firebase/firestore"
+import { collection, getDocs } from "firebase/firestore"
 
 const Main = () => {
   const [products, setProducts] = useState([]);
@@ -10,20 +10,19 @@ const Main = () => {
 
   const fetchProducts = async () => {
 
-     try {
-      const response = await fetch("https://fakestoreapi.com/products");
-      const data = await response.json();
-      setProducts(data);
-    } catch (err) {
-      setError("Ocurrió un error al cargar los productos. | " + err);
-      console.log(error);
-    }
+    try {
+      const productosRef = collection(db, "productos");
+      const prodSnapshot = await getDocs(productosRef);
+      const productList = prodSnapshot.docs.map((doc) => ({
+        id: doc.id,
+        ...doc.data(),
+      }));
 
-    //IMPLEMENTO FIREBASE
-    // const productosRef = collection(db, "productos")
-    // const snapshot = await getDocs(productosRef)
-    // const docs = snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }))
-    // setProducts(docs)
+      setProducts(productList);
+
+    } catch (err) {
+      setError("Ocurrió un error al cargar productos: " + err.message);
+    }
   };
 
   useEffect(() => {
@@ -40,13 +39,16 @@ const Main = () => {
         {error && <p className="main-error">{error}</p>}
         {products.length === 0 && !error && <p className="main-info">No hay productos para mostrar</p>}
         {products.map((product) => (
-          <div className="main-product" key={product.id}>
-            <img src={product.image} alt={`Imagen del producto ${product.title}`} />
-            <h2>{product.title}</h2>
+           <div className="main-product" key={product.id}>
+            {product.image && <img src={product.image} alt={`Imagen de ${product.name}`} />}
+            <h2>{product.name}</h2>
             <p>${product.price}</p>
-            <Link className="btn-nlb" to={`/productDetail/${product.id}`}>Comprar</Link>
-            
+            <div className="main-product-buttons">
+              <Link className="btn-nlb" to={`/productDetail/${product.id}`}>Comprar</Link>
+              <Link className="btn-nlb edit-btn" to={`/editProduct/${product.id}`}>Editar</Link>
+            </div>
           </div>
+
         ))}
       </section>
     </main>

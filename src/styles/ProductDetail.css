@@ -88,3 +88,18 @@
   text-align: center;
   padding: 3rem;
 }
+
+.back-btn {
+  background: none;
+  color: #a8c0e0;
+  border: none;
+  font-size: 1rem;
+  cursor: pointer;
+  margin: 1rem;
+  transition: color 0.3s ease;
+}
+
+.back-btn:hover {
+  color: #ffffff;
+  text-decoration: underline;
+}

@@ -1,29 +1,38 @@
 
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import "../styles/ProductDetail.css";
 import Layout from "./Layout";
 import { useEffect, useState } from "react";
+import { doc, getDoc } from "firebase/firestore";
+import { db } from "../config/firebase"
 
 const ProductDetail = () => {
 
   const {prodId} = useParams();
+  const navigate = useNavigate();
+  const handleBack = () => navigate("/");
+
   const [product, setProduct] = useState(null)  
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    const fetchDetails = async () => {
+      const fetchDetails = async () => {
         try {
-          
-          const response = await fetch(`https://fakestoreapi.com/products/${prodId}`);
-          const data = await response.json();
-          setProduct(data);
+          const productRef = doc(db, "productos", prodId);
+          const docSnap = await getDoc(productRef);
+          if (docSnap.exists()) {
+            setProduct({ id: docSnap.id, ...docSnap.data() });
+          } else {
+            setError("Producto no encontrado");
+          }
         } catch (err) {
-          setError(err.message);
+          setError("Error al obtener producto: " + err.message);
         } finally {
           setLoading(false);
         }
       };
+
       fetchDetails();
     }, [prodId]);
 
@@ -35,15 +44,16 @@ const ProductDetail = () => {
 
   return (
     <Layout>
+      <button className="back-btn" onClick={handleBack}>⬅ Volver</button>
       <div className="product-detail-container">
         <div className="product-detail-card">
           <div className="product-detail-img-wrapper">
-            <img src={product.image} alt={product.title} />
+            <img src={product.image} alt={product.name} />
           </div>
           <div className="product-detail-info">
-            <h1>{product.title}</h1>
+            <h1>{product.name}</h1>
             <p className="product-detail-price">${product.price}</p>
-            <p className="product-detail-description">{product.description}</p>
+            <p className="product-detail-description">{product.desc}</p>
             <button>Comprar</button>
           </div>
         </div>

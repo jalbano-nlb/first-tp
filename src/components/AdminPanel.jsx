@@ -1,0 +1,135 @@
+import Layout from "./Layout";
+import "../styles/AdminPanel.css"
+import { useState } from "react";
+import { addDoc, collection } from "firebase/firestore";
+import { db } from "../config/firebase"
+const DEFAULT_IMAGE = "https://via.placeholder.com/150?text=Sin+imagen";
+
+
+
+const AdminPanel = () => {
+
+    const [name, setName] = useState("");
+    const [price, setPrice] = useState(0);
+    const [desc, setDesc] = useState("");
+    const [image, setImage] = useState("");
+
+    
+
+
+    const createProduct  = async (prodData) => {
+        const createdAt = Date.now ()
+        const updatedAt = Date.now ()
+        const productosRef = collection(db, "productos")
+        console.log(prodData);
+        try{
+            const productRef = await addDoc(productosRef, {createdAt, updatedAt, ...prodData})
+            cleanForm();
+            return productRef
+        } catch(err){
+            console.log("Saving error: ", err);
+        }
+    }
+
+    const handleName = (ev) => {
+        setName(ev.target.value)
+    }
+
+    const handleDesc = (ev) => {
+        setDesc(ev.target.value)
+    }
+
+    const handlePrice = (ev) => {
+        setPrice(ev.target.value)
+    }
+
+    const handleImage = (e) => {
+        const file = e.target.files[0];
+
+        if (file.size > 100000) {
+            alert("La imagen debe pesar menos de 100 KB.");
+            return;
+        }
+
+        const reader = new FileReader();
+
+        reader.onloadend = () => {
+            setImage(reader.result); // base64
+        };
+
+        if (file) {
+            reader.readAsDataURL(file);
+        }
+    };
+
+    const handleSubmit = async (ev) =>{
+        ev.preventDefault()
+        
+        if (name.length <= 2) {
+            console.log("El nombre debe tener mas de dos caracteres")
+            return
+        }
+
+        if (price <= 0) {
+            console.log("El precio debe ser mayor a 0")
+            return
+        }
+
+        const newProd = {name, price, desc, image: image || DEFAULT_IMAGE};
+
+        try {
+            await createProduct(newProd)
+            
+        } catch (error) {
+            console.log("Error al crear: ", error)
+        }
+    }
+
+    const cleanForm = () => {
+        setName("");
+        setDesc("");
+        setPrice(0);
+    }
+
+    return (
+        <Layout>
+            <div className="create-product-cont">
+                <div className="create-product-card">
+                    <h2>Alta de Producto</h2>
+                    <form className="create-product-form" onSubmit={handleSubmit}>
+                        <label>
+                            Nombre del producto:
+                            <input type="text" id="name" name="name" onChange={handleName} value={name} required />
+                        </label>
+                        <label>
+                            Precio:
+                            <input type="number" name="price" id="price" onChange={handlePrice} step="0.01" value={price} required />
+                        </label>
+                        <label>
+                            Descripción:
+                            <textarea name="desc" id="desc" onChange={handleDesc} rows="4" value={desc} required></textarea>
+                        </label>
+
+                        <label>
+                            Imagen del producto:
+                            <input type="file" accept="image/*" onChange={handleImage} />
+                        </label>
+                        {/* ASÍ SE AGREGARÍA UNA VISTA PREVIA??????
+                        {image && (
+                            <img
+                                src={image}
+                                alt="Vista previa"
+                                style={{ maxWidth: "150px", marginTop: "1rem", borderRadius: "6px" }}
+                            />
+                        )} */}
+
+
+                        <button type="submit">Guardar</button>
+                    </form>
+                </div>
+            </div>
+        </Layout>
+    );
+};
+
+export default AdminPanel;

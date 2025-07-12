@@ -7,6 +7,7 @@ const Header = () => {
       <nav className="header-nav">
         <ul className="header-nav-list">
           <li><Link to="/">Inicio</Link></li>
+          <li><Link to="/adminpanel">Panel de Administrador</Link></li>
           <li><Link to="/register">Registrate</Link></li>
           <li><Link to="/login">Login</Link></li>
         </ul>
