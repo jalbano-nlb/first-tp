@@ -3,7 +3,6 @@ import { useEffect, useState } from "react";
 import { db } from "../config/firebase";
 import { doc, getDoc, updateDoc, deleteDoc } from "firebase/firestore";
 import "../styles/AdminPanel.css" //Utilizo el mismo que el de alta, son casi iguales. Agregué solamente estilos al boton editar
-const DEFAULT_IMAGE = "https://via.placeholder.com/150?text=Sin+imagen";
 
 
 const EditProduct = () => {
@@ -25,7 +24,7 @@ const EditProduct = () => {
             setName(data.name);
             setPrice(data.price);
             setDesc(data.desc);
-            setImage(data.image || "");
+            setImage(data.image);
         } else {
             console.log("Producto no encontrado");
         }
@@ -43,7 +42,7 @@ const EditProduct = () => {
             name,
             price,
             desc,
-            image: image || DEFAULT_IMAGE,
+            image: image,
             updatedAt: Date.now()
         });
         navigate("/");

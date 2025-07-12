@@ -3,7 +3,7 @@ import "../styles/AdminPanel.css"
 import { useState } from "react";
 import { addDoc, collection } from "firebase/firestore";
 import { db } from "../config/firebase"
-const DEFAULT_IMAGE = "https://via.placeholder.com/150?text=Sin+imagen";
+import * as DEF_IMG from "../assets/defaultImage"
 
 
 
@@ -21,7 +21,6 @@ const AdminPanel = () => {
         const createdAt = Date.now ()
         const updatedAt = Date.now ()
         const productosRef = collection(db, "productos")
-        console.log(prodData);
         try{
             const productRef = await addDoc(productosRef, {createdAt, updatedAt, ...prodData})
             cleanForm();
@@ -75,7 +74,7 @@ const AdminPanel = () => {
             return
         }
 
-        const newProd = {name, price, desc, image: image || DEFAULT_IMAGE};
+        const newProd = {name, price, desc, image: image || DEF_IMG.default};
 
         try {
             await createProduct(newProd)
@@ -117,7 +116,7 @@ const AdminPanel = () => {
                         {/* ASÍ SE AGREGARÍA UNA VISTA PREVIA??????
                         {image && (
                             <img
-                                src={image}
+                                src={image || DEF_IMG.default}
                                 alt="Vista previa"
                                 style={{ maxWidth: "150px", marginTop: "1rem", borderRadius: "6px" }}
                             />
