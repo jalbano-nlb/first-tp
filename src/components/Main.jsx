@@ -1,13 +1,16 @@
 import { useEffect, useState } from "react";
 import "../styles/Main.css";
 import { Link } from "react-router-dom";
+import { db } from "../config/firebase"
+import { collection, getDocs, doc, addDoc } from "firebase/firestore"
 
 const Main = () => {
   const [products, setProducts] = useState([]);
   const [error, setError] = useState(null);
 
   const fetchProducts = async () => {
-    try {
+
+     try {
       const response = await fetch("https://fakestoreapi.com/products");
       const data = await response.json();
       setProducts(data);
@@ -15,6 +18,12 @@ const Main = () => {
       setError("Ocurrió un error al cargar los productos. | " + err);
       console.log(error);
     }
+
+    //IMPLEMENTO FIREBASE
+    // const productosRef = collection(db, "productos")
+    // const snapshot = await getDocs(productosRef)
+    // const docs = snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }))
+    // setProducts(docs)
   };
 
   useEffect(() => {
