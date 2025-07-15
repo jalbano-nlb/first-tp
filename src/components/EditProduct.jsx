@@ -1,5 +1,6 @@
 import { useParams, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
+import Layout from "./Layout";
 import { db } from "../config/firebase";
 import { doc, getDoc, updateDoc } from "firebase/firestore";
 import "../styles/AdminPanel.css" //Utilizo el mismo que el de alta, son casi iguales. Agregué solamente estilos al boton editar
@@ -79,7 +80,7 @@ const EditProduct = () => {
     }
 
     return (
-        <>
+        <Layout>
             <button className="back-btn" onClick={handleBack}>⬅ Volver</button>
             <div className="create-product-cont">
                 <div className="create-product-card">
@@ -105,7 +106,7 @@ const EditProduct = () => {
                     </form>
                 </div>
             </div>
-        </>
+        </Layout>
     );
 };
 

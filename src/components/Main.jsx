@@ -30,7 +30,7 @@ const Main = () => {
   }, []);
 
   return (
-    <main className="main">
+    <>
       <section className="main-banner">
         <h1 className="main-title">Bienvenidos a Noalbits</h1>
       </section>
@@ -51,7 +51,7 @@ const Main = () => {
 
         ))}
       </section>
-    </main>
+    </>
   );
 };
 

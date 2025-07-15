@@ -22,7 +22,7 @@ function Login() {
           {error && <p className="login-error">{error}</p>}
           <form className="login-form" onSubmit={handleSubmit}>
             <label>Email:
-              <input type="email" name="email" placeholder='example@example.com' required />
+              <input type="email" name="email" placeholder='example@correo.com' required />
             </label>
             <label>Contraseña:
               <input type="password" name="password" placeholder="********" required />

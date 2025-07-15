@@ -2,8 +2,8 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 100vh;
-  padding: 1rem;
+  flex: 1;
+  padding: 2rem 1rem;
   background-color: #1e2a38;
 }
 
