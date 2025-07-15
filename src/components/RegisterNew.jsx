@@ -1,14 +1,32 @@
 import { Link } from 'react-router-dom';
 import '../styles/RegisterNew.css'
 import Layout from './Layout';
+import { useState } from 'react';
 
 function RegisterNew() {
+
+  const [message, setMessage] = useState("");
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+
+    //valido al menos la contrasenia. Lógica real pendiente
+    const passwordsMatch = true;
+
+    if (!passwordsMatch) {
+      setMessage("Las contraseñas no coinciden");
+      return;
+    }
+    // Suponiendo envío exitoso...
+    setMessage("¡Registro exitoso!");
+  };
+
   return (
     <Layout>
       <div className="register-cont">
         <div className="register-card">
           <h2>Registro de Usuario</h2>
-          <form className="register-form">
+          <form className="register-form" onSubmit={handleSubmit}>
             <label>
               Nombre:
               <input type="text" name="nombre" placeholder="Ej: Lionel" required />
@@ -31,9 +49,9 @@ function RegisterNew() {
             </label>
 
             <button type="submit">Registrarse</button>
-            <p className="register-footer">¿Ya tenés cuenta? <Link to="/login">Iniciá sesión</Link></p>
+            {message && ( <div className="register-message">{message}</div>)}
           </form>
-
+          <p className="register-footer">¿Ya tenés cuenta? <Link to="/login">Iniciá sesión</Link></p>
         </div>
       </div>
     </Layout>
