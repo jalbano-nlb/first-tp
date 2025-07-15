@@ -50,8 +50,8 @@ const AdminPanel = () => {
     const handleImage = (e) => {
         const file = e.target.files[0];
 
-        if (file.size > 100000) {
-            alert("La imagen debe pesar menos de 100 KB.");
+        if (file.size > 5000000) {
+            alert("La imagen debe pesar menos de 5 MB.");
             return;
         }
 

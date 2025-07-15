@@ -79,6 +79,25 @@ const EditProduct = () => {
         setPrice(ev.target.value)
     }
 
+    const handleImage = (e) => {
+        const file = e.target.files[0];
+
+        if (file.size > 5000000) {
+            alert("La imagen debe pesar menos de 5 MB.");
+            return;
+        }
+
+        const reader = new FileReader();
+
+        reader.onloadend = () => {
+            setImage(reader.result); // base64
+        };
+
+        if (file) {
+            reader.readAsDataURL(file);
+        }
+    };
+
     return (
         <Layout>
             <button className="back-btn" onClick={handleBack}>⬅ Volver</button>
@@ -99,6 +118,10 @@ const EditProduct = () => {
                         <textarea value={desc} onChange={handleDesc} rows="4" required />
                     </label>
 
+                    <label>
+                        Imagen del producto:
+                        <input type="file" accept="image/*" onChange={handleImage} />
+                    </label>
                     <button type="submit">Guardar cambios</button>
                     <button type="button" style={{ marginTop: "1rem", backgroundColor: "#c0392b" }} onClick={handleDelete}>
                         Eliminar producto
