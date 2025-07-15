@@ -1,4 +1,4 @@
-import { useParams, useNavigate } from "react-router-dom";
+import { useParams, useNavigate, Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 import Layout from "./Layout";
 import { db } from "../config/firebase";
@@ -9,7 +9,6 @@ import "../styles/AdminPanel.css" //Utilizo el mismo que el de alta, son casi ig
 const EditProduct = () => {
     const { prodId } = useParams();
     const navigate = useNavigate();
-    const handleBack = () => navigate("/");
     const [name, setName] = useState("");
     const [price, setPrice] = useState("");
     const [desc, setDesc] = useState("");
@@ -116,38 +115,42 @@ const EditProduct = () => {
 
     return (
         <Layout>
-            <button className="back-btn" onClick={handleBack}>⬅ Volver</button>
-            <div className="create-product-cont">
-                <div className="create-product-card">
-                    <h2>Editar Producto</h2>
-                    {message && (
-                        <div className={`form-message ${messageType}`}>
-                            {message}
-                        </div>
-                    )}
-                    <form className="create-product-form" onSubmit={handleUpdate}>
-                    <label>
-                        Nombre del producto:
-                        <input type="text" value={name} onChange={handleName} required />
-                    </label>
-                    <label>
-                        Precio:
-                        <input type="number" value={price} onChange={handlePrice} step="0.01" required />
-                    </label>
-                    <label>
-                        Descripción:
-                        <textarea value={desc} onChange={handleDesc} rows="4" required />
-                    </label>
+            <div className="form-container">
+                <div className="form-back">
+                    <Link to="/">← Volver</Link>
+                </div>
+                <div className="create-product-cont">
+                    <div className="create-product-card">
+                        <h2>Editar Producto</h2>
+                        {message && (
+                            <div className={`form-message ${messageType}`}>
+                                {message}
+                            </div>
+                        )}
+                        <form className="create-product-form" onSubmit={handleUpdate}>
+                        <label>
+                            Nombre del producto:
+                            <input type="text" value={name} onChange={handleName} required />
+                        </label>
+                        <label>
+                            Precio:
+                            <input type="number" value={price} onChange={handlePrice} step="0.01" required />
+                        </label>
+                        <label>
+                            Descripción:
+                            <textarea value={desc} onChange={handleDesc} rows="4" required />
+                        </label>
 
-                    <label>
-                        Imagen del producto:
-                        <input type="file" accept="image/*" onChange={handleImage} />
-                    </label>
-                    <button type="submit">Guardar cambios</button>
-                    <button type="button" style={{ marginTop: "1rem", backgroundColor: "#c0392b" }} onClick={handleDelete}>
-                        Eliminar producto
-                    </button>
-                    </form>
+                        <label>
+                            Imagen del producto:
+                            <input type="file" accept="image/*" onChange={handleImage} />
+                        </label>
+                        <button type="submit">Guardar cambios</button>
+                        <button type="button" style={{ marginTop: "1rem", backgroundColor: "#c0392b" }} onClick={handleDelete}>
+                            Eliminar producto
+                        </button>
+                        </form>
+                    </div>
                 </div>
             </div>
         </Layout>

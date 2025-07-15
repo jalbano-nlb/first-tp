@@ -4,14 +4,14 @@ import { useState } from "react";
 import { addDoc, collection } from "firebase/firestore";
 import { db } from "../config/firebase"
 import * as DEF_IMG from "../assets/defaultImage"
-import { useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 
 
 const AdminPanel = () => {
 
-    const navigate = useNavigate();
-    const handleBack = () => navigate("/");
+    // const navigate = useNavigate();
+    // const handleBack = () => navigate("/");
 
     const [name, setName] = useState("");
     const [price, setPrice] = useState(0);
@@ -102,47 +102,52 @@ const AdminPanel = () => {
 
     return (
         <Layout>
-            <button className="back-btn" onClick={handleBack}>⬅ Volver</button>
-            <div className="create-product-cont">
-                <div className="create-product-card">
-                    <h2>Alta de Producto</h2>
-                    <div style={{ minHeight: "2.5rem" }}>
-                        {message && (
-                        <div className={`form-message ${messageType}`}>
-                            {message}
+            <div className="form-container">
+                <div className="form-back">
+                    <Link to="/">← Volver</Link>
+                </div>
+            
+                <div className="create-product-cont">
+                    <div className="create-product-card">
+                        <h2>Alta de Producto</h2>
+                        <div style={{ minHeight: "2.5rem" }}>
+                            {message && (
+                            <div className={`form-message ${messageType}`}>
+                                {message}
+                            </div>
+                            )}
                         </div>
-                        )}
+                        <form className="create-product-form" onSubmit={handleSubmit}>
+                            <label>
+                                Nombre del producto:
+                                <input type="text" id="name" name="name" onChange={handleName} value={name} required />
+                            </label>
+                            <label>
+                                Precio:
+                                <input type="number" name="price" id="price" onChange={handlePrice} step="0.01" value={price} required />
+                            </label>
+                            <label>
+                                Descripción:
+                                <textarea name="desc" id="desc" onChange={handleDesc} rows="4" value={desc} required></textarea>
+                            </label>
+
+                            <label>
+                                Imagen del producto:
+                                <input type="file" accept="image/*" onChange={handleImage} />
+                            </label>
+                            {/* ASÍ SE AGREGARÍA UNA VISTA PREVIA??????
+                            {image && (
+                                <img
+                                    src={image || DEF_IMG.default}
+                                    alt="Vista previa"
+                                    style={{ maxWidth: "150px", marginTop: "1rem", borderRadius: "6px" }}
+                                />
+                            )} */}
+
+
+                            <button type="submit">Guardar</button>
+                        </form>
                     </div>
-                    <form className="create-product-form" onSubmit={handleSubmit}>
-                        <label>
-                            Nombre del producto:
-                            <input type="text" id="name" name="name" onChange={handleName} value={name} required />
-                        </label>
-                        <label>
-                            Precio:
-                            <input type="number" name="price" id="price" onChange={handlePrice} step="0.01" value={price} required />
-                        </label>
-                        <label>
-                            Descripción:
-                            <textarea name="desc" id="desc" onChange={handleDesc} rows="4" value={desc} required></textarea>
-                        </label>
-
-                        <label>
-                            Imagen del producto:
-                            <input type="file" accept="image/*" onChange={handleImage} />
-                        </label>
-                        {/* ASÍ SE AGREGARÍA UNA VISTA PREVIA??????
-                        {image && (
-                            <img
-                                src={image || DEF_IMG.default}
-                                alt="Vista previa"
-                                style={{ maxWidth: "150px", marginTop: "1rem", borderRadius: "6px" }}
-                            />
-                        )} */}
-
-
-                        <button type="submit">Guardar</button>
-                    </form>
                 </div>
             </div>
         </Layout>
