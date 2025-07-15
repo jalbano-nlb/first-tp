@@ -5,12 +5,20 @@ import { useState } from 'react';
 
 function Login() {
 
-  const [error, setError] = useState("");
+  // const [error, setError] = useState("");
+  const [message, setMessage] = useState("");
+  const [messageType, setMessageType] = useState(""); // 'success' | 'error'
 
   const handleSubmit = (e) => {
     e.preventDefault();
     // TODO: Login Auth
-    setError("Funcionalidad no implementada.");
+    // setError("Funcionalidad no implementada.");
+    // setMessage("Funcionalidad no implementada.");
+    // setMessageType("success");
+
+    setMessage("Funcionalidad no implementada.");
+    setMessageType("error");
+    setTimeout(() => setMessage(""), 4000);
   };
 
   return (
@@ -19,7 +27,13 @@ function Login() {
         <div className="login-card">
           <h2>Iniciar Sesión</h2>
           <p className="login-subtitle">Accedé a tu cuenta para continuar</p>
-          {error && <p className="login-error">{error}</p>}
+          <div style={{ minHeight: "2.5rem" }}>
+            {message && (
+              <div className={`form-message ${messageType}`}>
+                {message}
+              </div>
+            )}
+          </div>
           <form className="login-form" onSubmit={handleSubmit}>
             <label>Email:
               <input type="email" name="email" placeholder='example@correo.com' required />

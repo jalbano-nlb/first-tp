@@ -15,6 +15,9 @@ const EditProduct = () => {
     const [desc, setDesc] = useState("");
     const [image, setImage] = useState("");
 
+    const [message, setMessage] = useState("");
+    const [messageType, setMessageType] = useState(""); // 'success' | 'error'
+
     useEffect(() => {
         const fetchProduct = async () => {
         const productRef = doc(db, "productos", prodId);
@@ -38,18 +41,24 @@ const EditProduct = () => {
         ev.preventDefault();
 
         try {
-        const productRef = doc(db, "productos", prodId);
-        await updateDoc(productRef, {
-            name,
-            price,
-            desc,
-            image: image,
-            updatedAt: Date.now()
-        });
-        navigate("/");
+            const productRef = doc(db, "productos", prodId);
+            await updateDoc(productRef, {
+                name,
+                price,
+                desc,
+                image: image,
+                updatedAt: Date.now()
+            });
+            setMessage("Producto editado exitosamente");
+            setMessageType("success");
+            // navigate("/");
         } catch (err) {
-        console.log("Error al actualizar producto: ", err);
+            console.log("E: ", err);
+            setMessage("Error al editar producto");
+            setMessageType("error");
         }
+        setTimeout(() => setMessage(""), 4000);
+        setTimeout(() => navigate("/"), 5000);
     };
 
     const handleDelete = async () => {
@@ -57,14 +66,21 @@ const EditProduct = () => {
         if (!confirm) return;
 
         try {
-        const productRef = doc(db, "productos", prodId);
-        await updateDoc(productRef, {
-            deletedAt: Date.now()
-        });
-        navigate("/");
+            const productRef = doc(db, "productos", prodId);
+            await updateDoc(productRef, {
+                deletedAt: Date.now()
+            });
+            setMessage("Producto editado exitosamente");
+            setMessageType("success");
+            navigate("/");
         } catch (err) {
-        console.log("Error al eliminar producto: ", err);
+            console.log("E: ", err);
+            setMessage("Error al eliminar producto");
+            setMessageType("error");
         }
+        setTimeout(() => setMessage(""), 4000);
+        setTimeout(() => navigate("/"), 5000);
+        
     };
 
     const handleName = (ev) => {
@@ -104,6 +120,11 @@ const EditProduct = () => {
             <div className="create-product-cont">
                 <div className="create-product-card">
                     <h2>Editar Producto</h2>
+                    {message && (
+                        <div className={`form-message ${messageType}`}>
+                            {message}
+                        </div>
+                    )}
                     <form className="create-product-form" onSubmit={handleUpdate}>
                     <label>
                         Nombre del producto:

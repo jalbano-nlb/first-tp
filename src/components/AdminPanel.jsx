@@ -18,7 +18,8 @@ const AdminPanel = () => {
     const [desc, setDesc] = useState("");
     const [image, setImage] = useState("");
 
-    
+    const [message, setMessage] = useState("");
+    const [messageType, setMessageType] = useState(""); // 'success' | 'error'
 
 
     const createProduct  = async (prodData) => {
@@ -83,10 +84,14 @@ const AdminPanel = () => {
 
         try {
             await createProduct(newProd)
-            
+            setMessage("Usuario creado exitosamente");
+            setMessageType("success");
         } catch (error) {
-            console.log("Error al crear: ", error)
+            console.log("E:", error)
+            setMessage("Error al crear usuario");
+            setMessageType("error");
         }
+        setTimeout(() => setMessage(""), 4000);
     }
 
     const cleanForm = () => {
@@ -101,6 +106,13 @@ const AdminPanel = () => {
             <div className="create-product-cont">
                 <div className="create-product-card">
                     <h2>Alta de Producto</h2>
+                    <div style={{ minHeight: "2.5rem" }}>
+                        {message && (
+                        <div className={`form-message ${messageType}`}>
+                            {message}
+                        </div>
+                        )}
+                    </div>
                     <form className="create-product-form" onSubmit={handleSubmit}>
                         <label>
                             Nombre del producto:

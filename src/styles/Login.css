@@ -29,16 +29,6 @@
   font-size: 0.95rem;
 }
 
-.login-error {
-  background-color: #c0392b;
-  color: white;
-  padding: 0.75rem;
-  border-radius: 5px;
-  margin-bottom: 1rem;
-  font-size: 0.85rem;
-  text-align: center;
-}
-
 .login-form {
   display: flex;
   flex-direction: column;
@@ -114,4 +104,27 @@
   color: #a8c0e0;
   opacity: 0.3;
   font-size: 0.9rem;
+}
+
+.form-message {
+  margin-top: 0.75rem;
+  font-size: 0.85rem;
+  text-align: center;
+  transition: opacity 0.3s ease;
+  padding: 0.4rem 0.8rem;
+  border-radius: 6px;
+  max-width: 100%;
+  white-space: pre-wrap;
+}
+
+.form-message.success {
+  background-color: rgba(46, 204, 113, 0.1); /* verde claro transparente */
+  color: #2ecc71;
+  border: 1px solid #2ecc71;
+}
+
+.form-message.error {
+  background-color: rgba(231, 76, 60, 0.1); /* rojo claro transparente */
+  color: #e74c3c;
+  border: 1px solid #e74c3c;
 }

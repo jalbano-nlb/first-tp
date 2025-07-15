@@ -6,6 +6,7 @@ import { useState } from 'react';
 function RegisterNew() {
 
   const [message, setMessage] = useState("");
+  const [messageType, setMessageType] = useState(""); // 'success' | 'error'
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -14,11 +15,14 @@ function RegisterNew() {
     const passwordsMatch = true;
 
     if (!passwordsMatch) {
-      setMessage("Las contraseñas no coinciden");
+      setMessage("Error al crear producto");
+      setMessageType("error");
       return;
     }
     // Suponiendo envío exitoso...
-    setMessage("¡Registro exitoso!");
+    setMessage("Producto creado exitosamente");
+    setMessageType("success");
+    setTimeout(() => setMessage(""), 4000);
   };
 
   return (
@@ -26,6 +30,13 @@ function RegisterNew() {
       <div className="register-cont">
         <div className="register-card">
           <h2>Registro de Usuario</h2>
+          <div style={{ minHeight: "2.5rem" }}>
+            {message && (
+              <div className={`form-message ${messageType}`}>
+                {message}
+              </div>
+            )}
+          </div>
           <form className="register-form" onSubmit={handleSubmit}>
             <label>
               Nombre:

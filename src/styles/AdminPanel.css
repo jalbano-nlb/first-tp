@@ -75,3 +75,26 @@
 .edit-btn:hover {
   background-color: #1e874b;
 }
+
+.form-message {
+  margin-top: 0.75rem;
+  font-size: 0.85rem;
+  text-align: center;
+  transition: opacity 0.3s ease;
+  padding: 0.4rem 0.8rem;
+  border-radius: 6px;
+  max-width: 100%;
+  white-space: pre-wrap;
+}
+
+.form-message.success {
+  background-color: rgba(46, 204, 113, 0.1); /* verde claro transparente */
+  color: #2ecc71;
+  border: 1px solid #2ecc71;
+}
+
+.form-message.error {
+  background-color: rgba(231, 76, 60, 0.1); /* rojo claro transparente */
+  color: #e74c3c;
+  border: 1px solid #e74c3c;
+}
