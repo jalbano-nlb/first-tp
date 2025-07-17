@@ -1,3 +1,25 @@
+.form-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 1rem;
+}
+.form-back {
+  align-self: flex-start;
+  margin-bottom: 0.5rem;
+  padding-left: 1rem;
+}
+
+.form-back a {
+  color: #a8c0e0;
+  font-size: 0.9rem;
+  text-decoration: none;
+  transition: color 0.3s;
+}
+
+.form-back a:hover {
+  color: #2980b9;
+}
 .product-detail-container {
   background-color: #1e2a38;
   padding: 2rem 1rem;

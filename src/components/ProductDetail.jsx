@@ -1,5 +1,5 @@
 
-import { useParams, useNavigate } from "react-router-dom";
+import { useParams, Link } from "react-router-dom";
 import "../styles/ProductDetail.css";
 import Layout from "./Layout";
 import { useEffect, useState } from "react";
@@ -9,8 +9,6 @@ import { db } from "../config/firebase"
 const ProductDetail = () => {
 
   const {prodId} = useParams();
-  const navigate = useNavigate();
-  const handleBack = () => navigate("/");
 
   const [product, setProduct] = useState(null)  
   const [loading, setLoading] = useState(true);
@@ -44,17 +42,21 @@ const ProductDetail = () => {
 
   return (
     <Layout>
-      <button className="back-btn" onClick={handleBack}>⬅ Volver</button>
-      <div className="product-detail-container">
-        <div className="product-detail-card">
-          <div className="product-detail-img-wrapper">
-            <img src={product.image} alt={product.name} />
-          </div>
-          <div className="product-detail-info">
-            <h1>{product.name}</h1>
-            <p className="product-detail-price">${product.price}</p>
-            <p className="product-detail-description">{product.desc}</p>
-            <button>Comprar</button>
+      <div className="form-container">
+        <div className="form-back">
+          <Link to="/">← Volver</Link>
+        </div>
+        <div className="product-detail-container">
+          <div className="product-detail-card">
+            <div className="product-detail-img-wrapper">
+              <img src={product.image} alt={product.name} />
+            </div>
+            <div className="product-detail-info">
+              <h1>{product.name}</h1>
+              <p className="product-detail-price">${product.price}</p>
+              <p className="product-detail-description">{product.desc}</p>
+              <button>Comprar</button>
+            </div>
           </div>
         </div>
       </div>
