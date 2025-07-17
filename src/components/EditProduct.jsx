@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import Layout from "./Layout";
 import { db } from "../config/firebase";
 import { doc, getDoc, updateDoc } from "firebase/firestore";
+import * as DEF_IMG from "../assets/defaultImage"
 import "../styles/AdminPanel.css" //Utilizo el mismo que el de alta, son casi iguales. Agregué solamente estilos al boton editar
 
 
@@ -145,6 +146,13 @@ const EditProduct = () => {
                             Imagen del producto:
                             <input type="file" accept="image/*" onChange={handleImage} />
                         </label>
+                         {image && (
+                            <img
+                                src={image || DEF_IMG.default}
+                                alt="Vista previa"
+                                style={{ maxWidth: "150px", marginTop: "1rem", borderRadius: "6px" }}
+                            />
+                        )}
                         <button type="submit">Guardar cambios</button>
                         <button type="button" style={{ marginTop: "1rem", backgroundColor: "#c0392b" }} onClick={handleDelete}>
                             Eliminar producto

@@ -84,11 +84,11 @@ const AdminPanel = () => {
 
         try {
             await createProduct(newProd)
-            setMessage("Usuario creado exitosamente");
+            setMessage("Producto creado exitosamente");
             setMessageType("success");
         } catch (error) {
             console.log("E:", error)
-            setMessage("Error al crear usuario");
+            setMessage("Error al crear producto");
             setMessageType("error");
         }
         setTimeout(() => setMessage(""), 4000);
@@ -98,6 +98,7 @@ const AdminPanel = () => {
         setName("");
         setDesc("");
         setPrice(0);
+        setImage("");
     }
 
     return (
@@ -135,14 +136,13 @@ const AdminPanel = () => {
                                 Imagen del producto:
                                 <input type="file" accept="image/*" onChange={handleImage} />
                             </label>
-                            {/* ASÍ SE AGREGARÍA UNA VISTA PREVIA??????
                             {image && (
                                 <img
                                     src={image || DEF_IMG.default}
                                     alt="Vista previa"
                                     style={{ maxWidth: "150px", marginTop: "1rem", borderRadius: "6px" }}
                                 />
-                            )} */}
+                            )}
 
 
                             <button type="submit">Guardar</button>
