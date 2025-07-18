@@ -2,16 +2,22 @@ import { Link } from 'react-router-dom';
 import '../styles/RegisterNew.css'
 import Layout from './Layout';
 import { useState } from 'react';
+import { auth } from '../config/firebase.js';
+import { createUserWithEmailAndPassword } from 'firebase/auth';
 
 function RegisterNew() {
 
+  const [name, setName] = useState("");
+  const [surName, setSurName] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const [message, setMessage] = useState("");
-  const [messageType, setMessageType] = useState(""); // 'success' | 'error'
+  const [messageType, setMessageType] = useState("");
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
-    //valido al menos la contrasenia. Lógica real pendiente
+    //TODO hacer validaciones correspondientes
     const passwordsMatch = true;
 
     if (!passwordsMatch) {
@@ -19,11 +25,34 @@ function RegisterNew() {
       setMessageType("error");
       return;
     }
-    // Suponiendo envío exitoso...
-    setMessage("Producto creado exitosamente");
-    setMessageType("success");
-    setTimeout(() => setMessage(""), 4000);
+
+    try {
+      await createUserWithEmailAndPassword(auth, email, password);
+      setMessageType("success")
+      setMessage("Usuario creado exitosamente")
+      setTimeout( setMessage("Redirigiendo al login"),2500)
+      setTimeout( setMessageType("info"),4000)
+    } catch (error) {
+      console.log(error)
+    }
+
   };
+
+  const handleName = (ev) => {
+        setName(ev.target.value)
+  }
+
+  const handleSurName = (ev) => {
+        setSurName(ev.target.value)
+  }
+
+  const handlePassword = (ev) => {
+        setPassword(ev.target.value)
+  }
+
+  const handleEmail = (ev) => {
+        setEmail(ev.target.value)
+  }
 
   return (
     <Layout>
@@ -40,19 +69,19 @@ function RegisterNew() {
           <form className="register-form" onSubmit={handleSubmit}>
             <label>
               Nombre:
-              <input type="text" name="nombre" placeholder="Ej: Lionel" required />
+              <input type="text" name="name" onChange={handleName} value={name} placeholder="Ej: Lionel" required />
             </label>
             <label>
               Apellido:
-              <input type="text" name="apellido" placeholder="Ej: Messi" required />
+              <input type="text" name="surName" onChange={handleSurName} value={surName} placeholder="Ej: Messi" required />
             </label>
             <label>
               Email:
-              <input type="email" name="email" placeholder="example@correo.com" required />
+              <input type="email" name="email" onChange={handleEmail} value={email}  placeholder="example@correo.com" required />
             </label>
             <label>
               Contraseña:
-              <input type="password" name="password" placeholder="********" required />
+              <input type="password" name="password" onChange={handlePassword} value={password} placeholder="********" required />
             </label>
             <label>
               Confirmar Contraseña:
