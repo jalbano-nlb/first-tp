@@ -116,3 +116,9 @@
   color: #e74c3c;
   border: 1px solid #e74c3c;
 }
+
+.form-message.info {
+  background-color: rgba(46, 186, 204, 0.1); /* celeste claro transparente */
+  color: #2ea7cc;
+  border: 1px solid #2e9acc;
+}
