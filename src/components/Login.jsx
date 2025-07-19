@@ -12,14 +12,15 @@ function Login() {
   const [message, setMessage] = useState("");
   const [messageType, setMessageType] = useState("");
   const navigate = useNavigate();
-  const { login, user } = useAuth();
+  const { login } = useAuth();
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
      
     try {
-      login(email, password)
-      if (!user) {
+      const userCredential = await login(email, password)
+      
+      if (!userCredential?.user) {
         setMessageType("error");
         setMessage("Usuario o contraseña incorrectos")
         setTimeout(()=>{setMessage("")}, 2000)

@@ -14,7 +14,7 @@ function RegisterNew() {
   const [message, setMessage] = useState("");
   const [messageType, setMessageType] = useState("");
   const navigate = useNavigate();
-  const { register, user } = useAuth();
+  const { register } = useAuth();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -28,8 +28,8 @@ function RegisterNew() {
     }
 
     try {
-      await register(email, password);
-      if (!user){
+      const userCredential= await register(email, password);
+      if (!userCredential?.user){
         setMessageType("error")
         setMessage("No se ha podido crear el usuario")
         return;
