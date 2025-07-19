@@ -1,25 +1,39 @@
 import '../styles/Login.css';
 import Layout from './Layout';
 import { useState } from 'react';
+import { useAuth } from '../context/AuthContext';
 
 
 function Login() {
 
-  // const [error, setError] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const [message, setMessage] = useState("");
-  const [messageType, setMessageType] = useState(""); // 'success' | 'error'
+  const [messageType, setMessageType] = useState("");
+  const { login } = useAuth();
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    // TODO: Login Auth
-    // setError("Funcionalidad no implementada.");
-    // setMessage("Funcionalidad no implementada.");
-    // setMessageType("success");
-
-    setMessage("Funcionalidad no implementada.");
-    setMessageType("error");
-    setTimeout(() => setMessage(""), 4000);
+     
+    try {
+      login(email, password)
+      
+    } catch (e) {
+      setMessage("Error al ingresar con los datos provistos")
+      setMessageType("error");
+      console.log(e)
+    }
+    
   };
+
+  const handlePassword = (ev) => {
+        setPassword(ev.target.value)
+  }
+
+  const handleEmail = (ev) => {
+        setEmail(ev.target.value)
+  }
+
 
   return (
       <Layout>
@@ -36,10 +50,10 @@ function Login() {
           </div>
           <form className="login-form" onSubmit={handleSubmit}>
             <label>Email:
-              <input type="email" name="email" placeholder='example@correo.com' required />
+              <input type="email" name="email" onChange={handleEmail} value={email} placeholder='example@correo.com' required />
             </label>
             <label>Contraseña:
-              <input type="password" name="password" placeholder="********" required />
+              <input type="password" name="password" onChange={handlePassword} value={password} placeholder="********" required />
             </label>
             <button type="submit">Ingresar</button>
           </form>

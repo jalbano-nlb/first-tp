@@ -2,8 +2,7 @@ import { Link } from 'react-router-dom';
 import '../styles/RegisterNew.css'
 import Layout from './Layout';
 import { useState } from 'react';
-import { auth } from '../config/firebase.js';
-import { createUserWithEmailAndPassword } from 'firebase/auth';
+import { useAuth } from '../context/AuthContext';
 
 function RegisterNew() {
 
@@ -11,23 +10,25 @@ function RegisterNew() {
   const [surName, setSurName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [passwordConfirm, setPasswordConfirm] = useState("");
   const [message, setMessage] = useState("");
   const [messageType, setMessageType] = useState("");
+  const { register } = useAuth();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     //TODO hacer validaciones correspondientes
-    const passwordsMatch = true;
+    const passwordsMatch = password === passwordConfirm;
 
     if (!passwordsMatch) {
-      setMessage("Error al crear producto");
+      setMessage("Las contraseñas no coinciden");
       setMessageType("error");
       return;
     }
 
     try {
-      await createUserWithEmailAndPassword(auth, email, password);
+      await register(email, password);
       setMessageType("success")
       setMessage("Usuario creado exitosamente")
       setTimeout( setMessage("Redirigiendo al login"),2500)
@@ -48,6 +49,10 @@ function RegisterNew() {
 
   const handlePassword = (ev) => {
         setPassword(ev.target.value)
+  }
+
+  const handlePasswordConfirm = (ev) => {
+        setPasswordConfirm(ev.target.value)
   }
 
   const handleEmail = (ev) => {
@@ -85,7 +90,7 @@ function RegisterNew() {
             </label>
             <label>
               Confirmar Contraseña:
-              <input type="password" name="confirmPassword" placeholder="********" required />
+              <input type="password" name="confirmPassword" onChange={handlePasswordConfirm} value={passwordConfirm} placeholder="********" required />
             </label>
 
             <button type="submit">Registrarse</button>
