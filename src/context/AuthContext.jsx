@@ -31,4 +31,5 @@ const AuthProvider = (props) => {
 }
 
 
+// eslint-disable-next-line react-refresh/only-export-components
 export { AuthProvider, AuthContext , useAuth }

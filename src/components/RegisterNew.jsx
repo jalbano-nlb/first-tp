@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import '../styles/RegisterNew.css'
 import Layout from './Layout';
 import { useState } from 'react';
@@ -13,27 +13,35 @@ function RegisterNew() {
   const [passwordConfirm, setPasswordConfirm] = useState("");
   const [message, setMessage] = useState("");
   const [messageType, setMessageType] = useState("");
-  const { register } = useAuth();
+  const navigate = useNavigate();
+  const { register, user } = useAuth();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    //TODO hacer validaciones correspondientes
     const passwordsMatch = password === passwordConfirm;
 
     if (!passwordsMatch) {
-      setMessage("Las contraseñas no coinciden");
       setMessageType("error");
+      setMessage("Las contraseñas no coinciden");
       return;
     }
 
     try {
       await register(email, password);
+      if (!user){
+        setMessageType("error")
+        setMessage("No se ha podido crear el usuario")
+        return;
+      }
       setMessageType("success")
       setMessage("Usuario creado exitosamente")
-      setTimeout( setMessage("Redirigiendo al login"),2500)
-      setTimeout( setMessageType("info"),4000)
+      setTimeout( ()=> {setMessageType("info")},700)
+      setTimeout( ()=> {setMessage("Redirigiendo al Inicio")},700)
+      setTimeout( ()=> {navigate("/")},  2500)
     } catch (error) {
+      setMessageType("error")
+      setMessage("Error al conectar con el servidor")
       console.log(error)
     }
 
@@ -94,7 +102,6 @@ function RegisterNew() {
             </label>
 
             <button type="submit">Registrarse</button>
-            {message && ( <div className="register-message">{message}</div>)}
           </form>
           <p className="register-footer">¿Ya tenés cuenta? <Link to="/login">Iniciá sesión</Link></p>
         </div>

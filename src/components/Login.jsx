@@ -1,6 +1,7 @@
 import '../styles/Login.css';
 import Layout from './Layout';
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 
 
@@ -10,17 +11,24 @@ function Login() {
   const [password, setPassword] = useState("");
   const [message, setMessage] = useState("");
   const [messageType, setMessageType] = useState("");
-  const { login } = useAuth();
+  const navigate = useNavigate();
+  const { login, user } = useAuth();
 
   const handleSubmit = (e) => {
     e.preventDefault();
      
     try {
       login(email, password)
-      
+      if (!user) {
+        setMessageType("error");
+        setMessage("Usuario o contraseña incorrectos")
+        setTimeout(()=>{setMessage("")}, 2000)
+        return;
+      }
+      navigate("/");
     } catch (e) {
-      setMessage("Error al ingresar con los datos provistos")
       setMessageType("error");
+      setMessage("Error al conectar con el servidor")
       console.log(e)
     }
     

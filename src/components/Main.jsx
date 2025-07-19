@@ -3,10 +3,12 @@ import "../styles/Main.css";
 import { Link } from "react-router-dom";
 import { db } from "../config/firebase"
 import { collection, getDocs } from "firebase/firestore"
+import { useAuth } from "../context/AuthContext";
 
 const Main = () => {
   const [products, setProducts] = useState([]);
   const [error, setError] = useState(null);
+  const { user } = useAuth();
 
   const fetchProducts = async () => {
 
@@ -45,7 +47,10 @@ const Main = () => {
             <p>${product.price}</p>
             <div className="main-product-buttons">
               <Link className="btn-nlb" to={`/productDetail/${product.id}`}>Comprar</Link>
-              <Link className="btn-nlb edit-btn" to={`/editProduct/${product.id}`}>Editar</Link>
+              {
+                user &&
+                  <Link className="btn-nlb edit-btn" to={`/editProduct/${product.id}`}>Editar</Link>
+              }
             </div>
           </div>
 

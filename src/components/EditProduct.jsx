@@ -4,7 +4,8 @@ import Layout from "./Layout";
 import { db } from "../config/firebase";
 import { doc, getDoc, updateDoc } from "firebase/firestore";
 import * as DEF_IMG from "../assets/defaultImage"
-import "../styles/AdminPanel.css" //Utilizo el mismo que el de alta, son casi iguales. Agregué solamente estilos al boton editar
+import "../styles/AdminPanel.css"
+import { useAuth } from "../context/AuthContext";
 
 
 const EditProduct = () => {
@@ -16,7 +17,8 @@ const EditProduct = () => {
     const [image, setImage] = useState("");
 
     const [message, setMessage] = useState("");
-    const [messageType, setMessageType] = useState(""); // 'success' | 'error'
+    const [messageType, setMessageType] = useState("");
+    const { user } = useAuth();
 
     useEffect(() => {
         const fetchProduct = async () => {
@@ -49,13 +51,12 @@ const EditProduct = () => {
                 image: image,
                 updatedAt: Date.now()
             });
-            setMessage("Producto editado exitosamente");
             setMessageType("success");
-            // navigate("/");
+            setMessage("Producto editado exitosamente");
         } catch (err) {
             console.log("E: ", err);
-            setMessage("Error al editar producto");
             setMessageType("error");
+            setMessage("Error al editar producto");
         }
         setTimeout(() => setMessage(""), 4000);
         setTimeout(() => navigate("/"), 5000);
@@ -70,13 +71,13 @@ const EditProduct = () => {
             await updateDoc(productRef, {
                 deletedAt: Date.now()
             });
-            setMessage("Producto editado exitosamente");
             setMessageType("success");
+            setMessage("Producto editado exitosamente");
             navigate("/");
         } catch (err) {
             console.log("E: ", err);
-            setMessage("Error al eliminar producto");
             setMessageType("error");
+            setMessage("Error al eliminar producto");
         }
         setTimeout(() => setMessage(""), 4000);
         setTimeout(() => navigate("/"), 5000);
@@ -154,9 +155,14 @@ const EditProduct = () => {
                             />
                         )}
                         <button type="submit">Guardar cambios</button>
-                        <button type="button" style={{ marginTop: "1rem", backgroundColor: "#c0392b" }} onClick={handleDelete}>
-                            Eliminar producto
-                        </button>
+                        {
+                            user &&
+                            <>
+                                <button type="button" style={{ marginTop: "1rem", backgroundColor: "#c0392b" }} onClick={handleDelete}>
+                                    Eliminar producto
+                                </button>
+                            </>
+                        }
                         </form>
                     </div>
                 </div>
