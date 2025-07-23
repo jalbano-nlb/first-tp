@@ -28,3 +28,37 @@
 .header-nav-list li a:hover {
   color: #2980b9;
 }
+
+.header-user {
+  background: #223142;
+  color: #a8c0e0;
+  padding: 0.3rem 0.8rem;
+  border-radius: 12px;
+  font-size: 0.95rem;
+  font-weight: 500;
+  margin-right: 0.5rem;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.header-logout-btn {
+  background-color: rgba(231, 76, 60, 0.1); /* rojo claro transparente */
+  color: #e74c3c;
+  border: 1px solid #e74c3c;
+  border-radius: 12px;
+  padding: 0.3rem 0.9rem;
+  font-weight: 500;
+  font-size: 0.97rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  transition: background 0.2s, color 0.2s, border-color 0.2s;
+}
+
+.header-logout-btn:hover {
+  background-color: #e74c3c;
+  color: #fff;
+  border-color: #e74c3c;
+}
