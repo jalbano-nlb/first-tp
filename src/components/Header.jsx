@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import "../styles/Header.css";
 import { useAuth } from "../context/AuthContext";
 import { FiLogOut, FiUser } from "react-icons/fi";
@@ -6,8 +6,11 @@ import { FiLogOut, FiUser } from "react-icons/fi";
 const Header = () => {
 
   const {user, logout} = useAuth();
+  const navigate = useNavigate();
+
   const handleLogout = () => {
     logout()
+    navigate("/login");
   }
 
   return (
