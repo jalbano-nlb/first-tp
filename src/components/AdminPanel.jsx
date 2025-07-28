@@ -5,13 +5,13 @@ import { addDoc, collection } from "firebase/firestore";
 import { db } from "../config/firebase"
 import * as DEF_IMG from "../assets/defaultImage"
 import { Link } from "react-router-dom";
+import { useAuth } from "../context/AuthContext";
 
 
 
 const AdminPanel = () => {
 
-    // const navigate = useNavigate();
-    // const handleBack = () => navigate("/");
+    const {user} = useAuth();
 
     const [name, setName] = useState("");
     const [price, setPrice] = useState(0);
@@ -26,9 +26,10 @@ const AdminPanel = () => {
         const createdAt = Date.now ()
         const updatedAt = Date.now ()
         const deletedAt = null;
+        const createdBy = user.uid;
         const productosRef = collection(db, "productos")
         try{
-            const productRef = await addDoc(productosRef, {createdAt, updatedAt, deletedAt, ...prodData})
+            const productRef = await addDoc(productosRef, {createdAt, updatedAt, deletedAt, createdBy, ...prodData})
             cleanForm();
             return productRef
         } catch(err){
