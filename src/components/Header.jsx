@@ -20,7 +20,7 @@ const Header = () => {
           <li><Link to="/">Inicio</Link></li>
           {user && (
             <>
-              <li><Link to="/adminpanel">Panel de Administrador</Link></li>
+              <li><Link to="/adminpanel">Panel de Usuario</Link></li>
               <li className="header-user">
                 <FiUser style={{ marginRight: "6px" }} />
                 {user.displayName || user.email}
