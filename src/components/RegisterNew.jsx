@@ -3,6 +3,8 @@ import '../styles/RegisterNew.css'
 import Layout from './Layout';
 import { useState } from 'react';
 import { useAuth } from '../context/AuthContext';
+import { db } from '../config/firebase';
+import { setDoc, doc } from "firebase/firestore";
 
 function RegisterNew() {
 
@@ -14,7 +16,7 @@ function RegisterNew() {
   const [message, setMessage] = useState("");
   const [messageType, setMessageType] = useState("");
   const navigate = useNavigate();
-  const { register } = useAuth();
+  const { register, updateProfile } = useAuth();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -34,6 +36,7 @@ function RegisterNew() {
         setMessage("No se ha podido crear el usuario")
         return;
       }
+      registrarNombreUser(userCredential)
       setMessageType("success")
       setMessage("Usuario creado exitosamente")
       setTimeout( ()=> {setMessageType("info")},700)
@@ -46,6 +49,17 @@ function RegisterNew() {
     }
 
   };
+
+  const registrarNombreUser = async (userCredential) => {
+    
+    try{
+      await updateProfile(userCredential.user, {displayName: `${name} ${surName}` })
+      const usuarioR = await setDoc(doc(db, 'usuarios', userCredential.user.uid), { name, surName, email, password})
+      return usuarioR
+    }catch(e){
+      console.log(e)
+    }
+  }
 
   const handleName = (ev) => {
         setName(ev.target.value)
