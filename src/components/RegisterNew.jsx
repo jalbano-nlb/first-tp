@@ -43,11 +43,26 @@ function RegisterNew() {
       setTimeout( ()=> {setMessage("Redirigiendo al Inicio")},700)
       setTimeout( ()=> {navigate("/")},  2500)
     } catch (error) {
+      console.error('Error en registro:', error)
       setMessageType("error")
-      setMessage("Error al conectar con el servidor")
-      console.log(error)
+      setMessage(getAuthErrorMessage(error.code))
     }
 
+  };
+
+  const getAuthErrorMessage = (code) => {
+    switch (code) {
+      case 'auth/email-already-in-use':
+        return 'El email ya está registrado';
+      case 'auth/weak-password':
+        return 'La contraseña debe tener al menos 6 caracteres';
+      case 'auth/invalid-email':
+        return 'Email no válido';
+      case 'auth/operation-not-allowed':
+        return 'Operación no permitida';
+      default:
+        return 'Error en el registro. Intenta nuevamente';
+    }
   };
 
   const registrarNombreUser = async (userCredential) => {
