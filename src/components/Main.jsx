@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import { db } from "../config/firebase"
 import { collection, getDocs } from "firebase/firestore"
 import { useAuth } from "../context/AuthContext";
-import { FiFilter } from "react-icons/fi";
+import { FiFilter, FiShoppingCart } from "react-icons/fi";
 
 const Main = () => {
   const [products, setProducts] = useState([]);
@@ -40,7 +40,17 @@ const Main = () => {
   return (
     <>
       <section className="main-banner">
-        <h1 className="main-title">Bienvenidos a Noalbits</h1>
+        <div className="main-banner-content">
+          <FiShoppingCart className="main-banner-icon" />
+          <h1 className="main-title">Bienvenidos a Noalbits</h1>
+          <p className="main-subtitle">Tu tienda online para comprar y vender productos fácilmente.</p>
+          {
+            !user && 
+              <Link to="/register" className="main-banner-btn">
+                ¡Comenzá ahora!
+              </Link>
+          }
+        </div>
       </section>
 
       {user && 
