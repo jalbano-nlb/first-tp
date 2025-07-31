@@ -53,6 +53,11 @@ const ProductDetail = () => {
             </div>
             <div className="product-detail-info">
               <h1>{product.name}</h1>
+              {product.createdByName && (
+                <p className="product-detail-creator">
+                  Creado por: <strong>{product.createdByName}</strong>
+                </p>
+              )}
               <p className="product-detail-price">${product.price}</p>
               <p className="product-detail-description">{product.desc}</p>
               <button>Comprar</button>

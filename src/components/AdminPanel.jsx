@@ -27,9 +27,11 @@ const AdminPanel = () => {
         const updatedAt = Date.now ()
         const deletedAt = null;
         const createdBy = user.uid;
+        const createdByName = user.displayName || user.email;
+
         const productosRef = collection(db, "productos")
         try{
-            const productRef = await addDoc(productosRef, {createdAt, updatedAt, deletedAt, createdBy, ...prodData})
+            const productRef = await addDoc(productosRef, {createdAt, updatedAt, deletedAt, createdBy, createdByName, ...prodData})
             cleanForm();
             return productRef
         } catch(err){
