@@ -1,7 +1,7 @@
 import Layout from "./Layout";
 import "../styles/AdminPanel.css"
 import { useState } from "react";
-import { addDoc, collection } from "firebase/firestore";
+import { addDoc, collection, query, where, getDocs } from "firebase/firestore";
 import { db } from "../config/firebase"
 import * as DEF_IMG from "../assets/defaultImage"
 import { Link } from "react-router-dom";
@@ -51,7 +51,7 @@ const AdminPanel = () => {
         setPrice(ev.target.value)
     }
 
-    const handleImage = (e) => {
+    const handleImage = async (e) => {
         const file = e.target.files[0];
 
         if (file.size > 5000000) {
@@ -61,14 +61,19 @@ const AdminPanel = () => {
 
         const reader = new FileReader();
 
-        reader.onloadend = () => {
-            setImage(reader.result); // base64
-        };
-
-        if (file) {
-            reader.readAsDataURL(file);
+        try {
+            const compressed = await compressImage(file, 600, 0.7);
+            setImage(compressed);
+        } catch (err) {
+            console.log("e", err)
+            setMessageType("error");
+            setMessage("Error al subir la imagen");
         }
-    };
+
+            if (file) {
+                reader.readAsDataURL(file);
+            }
+        };
 
     const handleSubmit = async (ev) =>{
         ev.preventDefault()
@@ -83,7 +88,8 @@ const AdminPanel = () => {
             return
         }
 
-        const newProd = {name, price, desc, image: image || DEF_IMG.default};
+        const sku = await generateSKU();
+        const newProd = {name, price, desc, sku, image: image || DEF_IMG.default};
 
         try {
             await createProduct(newProd)
@@ -96,6 +102,56 @@ const AdminPanel = () => {
         }
         setTimeout(() => setMessage(""), 4000);
     }
+
+    const generateSKU = async () => {
+        const now = new Date();
+        const MM = String(now.getMonth() + 1).padStart(2, "0");
+        const YY = String(now.getFullYear()).slice(-2);
+        const prefix = `${MM}${YY}-PRL-`;
+
+        let sku;
+        let exists = true;
+
+        while (exists) {
+            const randomNum = Math.floor(10000 + Math.random() * 90000);
+            sku = `${prefix}${randomNum}`;
+
+            
+            const productosRef = collection(db, "productos");
+            const res = query(productosRef, where("sku", "==", sku));
+            const snapshot = await getDocs(res);
+            exists = !snapshot.empty;
+        }
+
+        return sku;
+    };
+
+    const compressImage = (file, maxWidth = 600, quality = 0.7) => {
+        return new Promise((resolve, reject) => {
+            const img = new window.Image();
+            const reader = new FileReader();
+
+            reader.onload = (e) => {
+                img.src = e.target.result;
+            };
+
+            img.onload = () => {
+                const canvas = document.createElement("canvas");
+                const scale = Math.min(maxWidth / img.width, 1);
+                canvas.width = img.width * scale;
+                canvas.height = img.height * scale;
+                const ctx = canvas.getContext("2d");
+                ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+                const compressedBase64 = canvas.toDataURL("image/jpeg", quality);
+                resolve(compressedBase64);
+            };
+
+            img.onerror = reject;
+            reader.onerror = reject;
+
+            reader.readAsDataURL(file);
+        });
+    };
 
     const cleanForm = () => {
         setName("");
