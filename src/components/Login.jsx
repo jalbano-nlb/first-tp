@@ -1,7 +1,7 @@
 import '../styles/Login.css';
 import Layout from './Layout';
 import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 
 
@@ -66,8 +66,7 @@ function Login() {
             </label>
             <button type="submit">Ingresar</button>
           </form>
-          <p className="login-register-link">
-            ¿No tenés cuenta? <a href="/register">Registrate acá</a>
+          <p className="login-footer">¿No tenés cuenta? <Link to="/register">Registrate acá</Link>
           </p>
         </div>
       </div>

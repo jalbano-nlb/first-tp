@@ -87,15 +87,16 @@
   background-color: #1f6391;
 }
 
-.login-register-link {
-  margin-top: 1.5rem;
-  text-align: center;
+.login-footer {
+  margin-top: 1rem;
   font-size: 0.85rem;
   color: #a8c0e0;
+  text-align: center;
+  width: 100%;
 }
 
-.login-register-link a {
-  color: #ffffff;
+.login-footer a {
+  color: white;
   font-weight: bold;
   text-decoration: underline;
 }
