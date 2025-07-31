@@ -11,6 +11,9 @@ const ProductDetail = () => {
   const {prodId} = useParams();
 
   const [product, setProduct] = useState(null)  
+  const [message, setMessage] = useState("");
+  const [messageType, setMessageType] = useState("");
+
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
@@ -34,6 +37,11 @@ const ProductDetail = () => {
       fetchDetails();
     }, [prodId]);
 
+    const handleBuy = () => {
+      setMessageType("info");
+      setMessage("Función en desarrollo");
+      setTimeout(() => setMessage(""), 4000);
+    }
     
   
     if (loading) return <div className="loading-message">Cargando el detalle de los productos...</div>;
@@ -53,14 +61,30 @@ const ProductDetail = () => {
             </div>
             <div className="product-detail-info">
               <h1>{product.name}</h1>
-              {product.createdByName && (
+              {product.sku && 
+                <p className="product-detail-sku">
+                  SKU: <span>{product.sku}</span>
+                </p>
+              }
+              {product.createdByName && 
                 <p className="product-detail-creator">
                   Creado por: <strong>{product.createdByName}</strong>
                 </p>
-              )}
-              <p className="product-detail-price">${product.price}</p>
+              
+              }
+              <p className="product-detail-price">
+                <span className="product-detail-price-label">PRECIO FINAL </span> 
+                ${product.price}
+              </p>
               <p className="product-detail-description">{product.desc}</p>
-              <button>Comprar</button>
+              <button onClick={handleBuy}>Comprar</button>
+              <div style={{ minHeight: "2.5rem" }}>
+                  {message && 
+                    <div className={`form-message ${messageType}`}>
+                        {message}
+                    </div>
+                  }
+              </div>
             </div>
           </div>
         </div>

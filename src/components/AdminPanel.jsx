@@ -19,7 +19,7 @@ const AdminPanel = () => {
     const [image, setImage] = useState("");
 
     const [message, setMessage] = useState("");
-    const [messageType, setMessageType] = useState(""); // 'success' | 'error'
+    const [messageType, setMessageType] = useState("");
 
 
     const createProduct  = async (prodData) => {
