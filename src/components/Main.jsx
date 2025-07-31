@@ -10,6 +10,7 @@ const Main = () => {
   const [products, setProducts] = useState([]);
   const [error, setError] = useState(null);
   const [showOwn, setShowOwn] = useState(false);
+  const [visibleCount, setVisibleCount] = useState(4);
   const { user } = useAuth();
 
   const fetchProducts = async () => {
@@ -64,7 +65,7 @@ const Main = () => {
       <section className="main-product-list">
         {error && <p className="main-error">{error}</p>}
         {filteredProducts.length === 0 && !error && <p className="main-info">No hay productos para mostrar</p>}
-        {filteredProducts.map((product) => (
+        {filteredProducts.slice(0,visibleCount).map((product) => (
            <div className="main-product" key={product.id}>
             {product.image && <img src={product.image} alt={`Imagen de ${product.name}`} />}
             <h2>{product.name}</h2>
@@ -80,6 +81,13 @@ const Main = () => {
 
         ))}
       </section>
+      {visibleCount < filteredProducts.length && 
+        <div className="main-see-more-bar">
+          <button className="see-more-btn" onClick={() => setVisibleCount(visibleCount + 4)}>
+            Ver más
+          </button>
+        </div>
+      }
     </>
   );
 };

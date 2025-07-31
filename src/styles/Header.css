@@ -43,7 +43,7 @@
 }
 
 .header-logout-btn {
-  background-color: rgba(231, 76, 60, 0.1); /* rojo claro transparente */
+  background-color: rgba(231, 76, 60, 0.1);
   color: #e74c3c;
   border: 1px solid #e74c3c;
   border-radius: 12px;
@@ -74,7 +74,7 @@
   .header-nav-list {
     flex-direction: column;
     gap: 0.5rem;
-    background: #223142f8; /* un poco más transparente */
+    background: #223142f8;
     position: absolute;
     top: 60px;
     right: 12px;

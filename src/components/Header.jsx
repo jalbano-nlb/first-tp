@@ -45,30 +45,6 @@ const Header = () => {
             </>
           )}
         </ul>
-        {/* <ul className="header-nav-list">
-          <li><Link to="/">Inicio</Link></li>
-          {user && (
-            <>
-              <li><Link to="/adminpanel">Panel de Usuario</Link></li>
-              <li className="header-user">
-                <FiUser style={{ marginRight: "6px" }} />
-                {user.displayName || user.email}
-              </li>
-              <li>
-                <button className="header-logout-btn" onClick={handleLogout}>
-                  <FiLogOut style={{ marginRight: "6px" }} />
-                  Cerrar Sesión
-                </button>
-              </li>
-            </>
-          )}
-          {!user && (
-            <>
-              <li><Link to="/register">Registrate</Link></li>
-              <li><Link to="/login">Login</Link></li>
-            </>
-          )}
-        </ul> */}
       </nav>
     </header>
   );

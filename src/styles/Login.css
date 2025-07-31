@@ -118,13 +118,13 @@
 }
 
 .form-message.success {
-  background-color: rgba(46, 204, 113, 0.1); /* verde claro transparente */
+  background-color: rgba(46, 204, 113, 0.1);
   color: #2ecc71;
   border: 1px solid #2ecc71;
 }
 
 .form-message.error {
-  background-color: rgba(231, 76, 60, 0.1); /* rojo claro transparente */
+  background-color: rgba(231, 76, 60, 0.1);
   color: #e74c3c;
   border: 1px solid #e74c3c;
 }
